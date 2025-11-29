@@ -205,7 +205,7 @@ void addBook() {
 void displayBooks() {
     if (bookCount == 0) {
         printf("[INFO] No books in the library.\n");
-        return;
+        return;.
     }
 
     printf("\n%-30s %-20s %-15s %-6s %-10s\n", "Title", "Author", "ISBN", "Year", "Status");

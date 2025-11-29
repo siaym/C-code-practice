@@ -16,21 +16,9 @@ int sum=0;
         }
         
     }
-    for (int i = 0; i < m; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            if (j<=i)
-            {
-                printf("%d",x[i][j]);
-            }else
-            printf("0");
-            
-        }
-        printf("\n");
-    }
+    
 
-    printf("\n sum of lower tringle \n");
+    printf("\n sum of upper tringle \n");
 
      for (int i = 0; i < m; i++)
     {
