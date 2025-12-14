@@ -74,8 +74,7 @@ void issueBook() {
     printf("Enter Book ID to Issue: ");
     scanf("%d", &bookID);
 
-    while (fscanf(file, "%d|%49[^|]|%49[^|]|%d\n",
-                  &book.id, book.title, book.author, &book.isIssued) == 4) {
+    while (fscanf(file, "%d|%49[^|]|%49[^|]|%d\n",&book.id, book.title, book.author, &book.isIssued) == 4) {
 
         if (book.id == bookID && book.isIssued == 0) {
             book.isIssued = 1;
@@ -132,6 +131,44 @@ void returnBook() {
     remove("library.txt");
     rename("temp.txt", "library.txt");
 }
+void deleteBook() {
+    struct Book book;
+    int bookID, found = 0;
+
+    FILE *file = fopen("library.txt", "r");
+    FILE *temp = fopen("temp.txt", "w");
+
+    if (!file || !temp) {
+        printf("Error opening file!\n");
+        return;
+    }
+
+    printf("Enter Book ID to Delete: ");
+    scanf("%d", &bookID);
+
+    while (fscanf(file, "%d|%49[^|]|%49[^|]|%d\n", 
+                  &book.id, book.title, book.author, &book.isIssued) == 4) {
+
+        if (book.id == bookID) {
+            
+            found = 1;
+            printf("Book deleted successfully!\n");
+        } else {
+            fprintf(temp, "%d|%s|%s|%d\n", book.id, book.title, book.author, book.isIssued);
+        }
+    }
+
+    fclose(file);
+    fclose(temp);
+
+    if (!found) {
+        printf("Book ID not found.\n");
+        remove("temp.txt"); 
+    } else {
+        remove("library.txt");
+        rename("temp.txt", "library.txt");
+    }
+}
 
 int main() {
     int choice;
@@ -142,7 +179,8 @@ int main() {
         printf("2. Display All Books\n");
         printf("3. Issue Book\n");
         printf("4. Return Book\n");
-        printf("5. Exit\n");
+        printf("5. Delete Book\n");  // New Option
+        printf("6. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -151,7 +189,8 @@ int main() {
             case 2: displayBooks(); break;
             case 3: issueBook(); break;
             case 4: returnBook(); break;
-            case 5: exit(0);
+            case 5: deleteBook(); break; // New Call
+            case 6: exit(0);
             default: printf("Invalid Choice!\n");
         }
     }
