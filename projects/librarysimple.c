@@ -6,7 +6,8 @@ struct Book {
     int id;
     char title[50];
     char author[50];
-    int isIssued;   // 0 = available, 1 = issued
+    int isIssued;          
+    char issuedTo[50];     
 };
 
 void addBook() {
@@ -31,8 +32,11 @@ void addBook() {
     newBook.author[strcspn(newBook.author, "\n")] = '\0';
 
     newBook.isIssued = 0;
+    strcpy(newBook.issuedTo, "None");   // NEW: No one has borrowed yet
 
-    fprintf(file, "%d|%s|%s|%d\n",newBook.id, newBook.title, newBook.author, newBook.isIssued);
+    fprintf(file, "%d|%s|%s|%d|%s\n",
+            newBook.id, newBook.title, newBook.author,
+            newBook.isIssued, newBook.issuedTo);
 
     fclose(file);
 
@@ -48,12 +52,14 @@ void displayBooks() {
         return;
     }
 
-    while (fscanf(file, "%d|%49[^|]|%49[^|]|%d\n",
-                  &book.id, book.title, book.author, &book.isIssued) == 4) {
+    while (fscanf(file, "%d|%49[^|]|%49[^|]|%d|%49[^\n]\n",
+                  &book.id, book.title, book.author,
+                  &book.isIssued, book.issuedTo) == 5) {
 
-        printf("\nID: %d\nTitle: %s\nAuthor: %s\nStatus: %s\n",
+        printf("\nID: %d\nTitle: %s\nAuthor: %s\nStatus: %s\nIssued To: %s\n",
                book.id, book.title, book.author,
-               book.isIssued ? "Issued" : "Available");
+               book.isIssued ? "Issued" : "Available",
+               book.issuedTo);
     }
 
     fclose(file);
@@ -62,6 +68,7 @@ void displayBooks() {
 void issueBook() {
     struct Book book;
     int bookID, found = 0;
+    char person[50];
 
     FILE *file = fopen("library.txt", "r");
     FILE *temp = fopen("temp.txt", "w");
@@ -70,21 +77,26 @@ void issueBook() {
         printf("Error opening file!\n");
         return;
     }
-
     printf("Enter Book ID to Issue: ");
     scanf("%d", &bookID);
+    getchar();
+    printf("Enter Person Name / ID: ");
+    fgets(person, 50, stdin);
+    person[strcspn(person, "\n")] = '\0';
 
-    while (fscanf(file, "%d|%49[^|]|%49[^|]|%d\n",&book.id, book.title, book.author, &book.isIssued) == 4) {
+    while (fscanf(file, "%d|%49[^|]|%49[^|]|%d|%49[^\n]\n", &book.id, book.title, book.author,
+                  &book.isIssued, book.issuedTo) == 5) {
 
         if (book.id == bookID && book.isIssued == 0) {
             book.isIssued = 1;
+            strcpy(book.issuedTo, person);  // Save person who issued it
             found = 1;
             printf("Book issued successfully!\n");
         }
-
-        fprintf(temp, "%d|%s|%s|%d\n",book.id, book.title, book.author, book.isIssued);
+        fprintf(temp, "%d|%s|%s|%d|%s\n",
+                book.id, book.title, book.author,
+                book.isIssued, book.issuedTo);
     }
-
     fclose(file);
     fclose(temp);
 
@@ -110,16 +122,20 @@ void returnBook() {
     printf("Enter Book ID to Return: ");
     scanf("%d", &bookID);
 
-    while (fscanf(file, "%d|%49[^|]|%49[^|]|%d\n",
-                  &book.id, book.title, book.author, &book.isIssued) == 4) {
+    while (fscanf(file, "%d|%49[^|]|%49[^|]|%d|%49[^\n]\n",
+                  &book.id, book.title, book.author,
+                  &book.isIssued, book.issuedTo) == 5) {
 
         if (book.id == bookID && book.isIssued == 1) {
             book.isIssued = 0;
+            strcpy(book.issuedTo, "None");   // Clear borrower
             found = 1;
             printf("Book returned successfully!\n");
         }
 
-        fprintf(temp, "%d|%s|%s|%d\n", book.id, book.title, book.author, book.isIssued);
+        fprintf(temp, "%d|%s|%s|%d|%s\n",
+                book.id, book.title, book.author,
+                book.isIssued, book.issuedTo);
     }
 
     fclose(file);
@@ -131,6 +147,7 @@ void returnBook() {
     remove("library.txt");
     rename("temp.txt", "library.txt");
 }
+
 void deleteBook() {
     struct Book book;
     int bookID, found = 0;
