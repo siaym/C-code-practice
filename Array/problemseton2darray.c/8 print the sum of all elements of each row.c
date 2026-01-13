@@ -4,7 +4,6 @@ int main (){
     printf("enter row and colum ");
 scanf("%d %d", &m, &n);
 int x[m][n];
-int sum = 0;
  
     printf("matrix: \n");
     for (int i = 0; i < m; i++)
@@ -19,7 +18,7 @@ int sum = 0;
     printf("\nThe sum matrix is: \n");
     
         for (int i = 0; i < m; i++)
-    {
+    {    int sum = 0;
         for (int j = 0; j < n; j++)
         {
             sum=sum + x[i][j];

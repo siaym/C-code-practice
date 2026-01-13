@@ -74,8 +74,7 @@ void issueBook() {
     printf("Enter Book ID to Issue: ");
     scanf("%d", &bookID);
 
-    while (fscanf(file, "%d|%49[^|]|%49[^|]|%d\n",
-                  &book.id, book.title, book.author, &book.isIssued) == 4) {
+    while (fscanf(file, "%d|%49[^|]|%49[^|]|%d\n",&book.id, book.title, book.author, &book.isIssued) == 4) {
 
         if (book.id == bookID && book.isIssued == 0) {
             book.isIssued = 1;
