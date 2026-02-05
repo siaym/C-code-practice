@@ -1,6 +1,20 @@
 #include<stdio.h>
-int main (){
-    int x y;
-    scanf("%d", &x y);
-    printf("\n%d",x_y+1);
+
+
+int main(){
+
+  struct node
+  {
+    int data;
+    struct node *next;
+    
+  };
+
+  struct node *head
+  
+  
+  
+
+    
+
 }

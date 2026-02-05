@@ -3,7 +3,6 @@
 
 int main() {
     double A, B, C;
-    scanf("%lf %lf %lf", &A, &B, &C);
 
     double delta = B * B - 4 * A * C;
 
