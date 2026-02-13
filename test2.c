@@ -1,31 +1,23 @@
-#include <stdio.h>
+#include<stdio.h>
+#include<string.h>
 
-int main() {
-    char name[50];
+typedef struct student 
+{
+    int house,block;
+    char city[30],state[30];
+} stu;
 
-    printf("Enter your name: ");
+void scan(stu *s1){
+    scanf("%d %d %s %s",&s1->house,&s1->block,s1->city,s1->state);
+};
 
-
-    fgets(name, 3, stdin);
-
-    
-    int y=345;
-    
-
-
-
-    //    gets(name);
-
-    //  fgets(name, sizeof(name),);
-    //  fgets(name,sizeof(name),stdin);
+void print (stu s1){
+    printf("%d %d %s %s",s1.house,s1.block,s1.city,s1.state);
+};
 
 
-
-    // scanf("%s",&name);
-       // reads a string including spaces
-
-    printf("Your name is:%s\n", name);
-
-
-    return 0;
+int main (){
+stu s1;
+scan(&s1);
+print(s1);
 }
