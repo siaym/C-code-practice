@@ -1,42 +1,31 @@
-#include <stdio.h>
-#include <string.h>
+void count(stu s1[50], int n){
+    for(int i = 0; i < n; i++){
+        int letters = 0;
 
-struct student {
-    int roll;
-    float cgpa;
-    char name[50];
-};
+        for(int j = 0; s1[i].name[j] != '\0'; j++){
+            if(s1[i].name[j] != '\n')
+                letters++;
+        }
 
-int main() {
-    int n, i;
+        printf("Student %d letters : %d\n", i+1, letters);
+    }
+}
 
-    printf("Enter number of students: ");
-    scanf("%d", &n);
 
-    struct student s[n];
 
-    for (i = 0; i < n; i++) {
-        printf("\nStudent %d\n", i + 1);
 
-        printf("Roll: ");
-        scanf("%d", &s[i].roll);
 
-        printf("CGPA: ");
-        scanf("%f", &s[i].cgpa);
+void count(stu s1[50], int n){
+    int totalLetters = 0;
 
-        printf("Name: ");
-        scanf("%s", s[i].name);
+    for(int i = 0; i < n; i++){          // loop through students
+        int j = 0;
+
+        while(s1[i].name[j] != '\0'){   // loop through characters
+            totalLetters++;
+            j++;
+        }
     }
 
-    printf("\n--- Student List ---\n");
-
-    for (i = 0; i < n; i++) {
-        printf("Student %d: Roll=%d CGPA=%.2f Name=%s\n",
-               i + 1,
-               s[i].roll,
-               s[i].cgpa,
-               s[i].name);
-    }
-
-    return 0;
+    printf("Total letters in all names : %d\n", totalLetters);
 }

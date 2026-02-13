@@ -1,23 +1,48 @@
 #include<stdio.h>
-#include<string.h>
-
-typedef struct student 
+typedef struct student
 {
-    int house,block;
-    char city[30],state[30];
+    char name[50];
+    int n;
 } stu;
 
-void scan(stu *s1){
-    scanf("%d %d %s %s",&s1->house,&s1->block,s1->city,s1->state);
-};
+void scan(stu s1[50] ,int n){
+    int i;
+    for ( i = 0; i < n; i++)
+    {
+        printf("enter number  %d student name : ",i+1);
+        fgets(s1[i].name,50,stdin);
+    }
+    
+}
 
-void print (stu s1){
-    printf("%d %d %s %s",s1.house,s1.block,s1.city,s1.state);
-};
+void print(stu s1[50], int n)
+{
+    // int count=0;
+    for (int i = 0; i < n; i++)
+    {
+        printf("%s",s1[i].name);
+        // count++;
+        //  printf("%d\n",count);
+    }
+}
 
+void count(stu s1[50],int n){
+    int count=0;
+    for (int  i = 0; s1[i].name != '\0'; i++)
+    {
+        count++;
+    }
+    printf("total word count : %d",count);
+}
 
-int main (){
-stu s1;
-scan(&s1);
-print(s1);
+int main(){
+stu s1[50];
+int n;
+printf("how many students : ");
+scanf("%d",&n);
+getchar();
+
+scan(s1,n);
+print(s1,n);
+count(s1,n);
 }
