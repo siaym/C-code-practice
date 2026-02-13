@@ -27,12 +27,17 @@ void print(stu s1[50], int n)
 }
 
 void count(stu s1[50],int n){
-    int count=0;
-    for (int  i = 0; s1[i].name != '\0'; i++)
+    for (int i = 0; i < n; i++)
     {
-        count++;
+     int   word=0;
+        for (int j = 0; s1[i].name[j]!='\0'; j++)
+        {
+            word++;
+        }
+        printf("for number %d student : %d\n",i+1,word-1);
+        
     }
-    printf("total word count : %d",count);
+    
 }
 
 int main(){
