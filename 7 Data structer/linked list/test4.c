@@ -18,14 +18,39 @@ if (header==NULL)
     printf("memory not allocated");
     return 0;
 }
+
+
 header->data=__INT_MAX__;
 header->link=NULL;//sinngly link list 
 
 
+}
+void insertfront (node *header,int data);
+{
+    node *newnode=(struct node*)malloc(sizeof(struct node))
+
+    if (header==NULL)
+{
+    printf("memory not allocated");
+    return 0;
+}
+else{
+    newnode->data=data;
+    newnode->link=header->link;
+    header->link=newnode;
+}
+}
 
 
-
-
+void insertlast (node *header,int data);
+{
+    node
+    node *newnode=(struct node*)malloc(sizeof(struct node))
+    if (header==NULL)
+{
+    printf("memory not allocated");
+    return 0;
+}
 
 
 }
