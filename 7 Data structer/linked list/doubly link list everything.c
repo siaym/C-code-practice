@@ -21,6 +21,8 @@ struct node *createnode(int roll, char name[])
     return newnode;
 }
 
+// insertng from last
+
 void insertlast(int roll, char name[])
 {
     struct node *newnode = createnode(roll, name);
@@ -39,6 +41,7 @@ void insertlast(int roll, char name[])
     temp->next = newnode;
     newnode->prev = temp;
 }
+// printing from back
 
 void printback()
 {
@@ -54,37 +57,39 @@ void printback()
         temp = temp->prev;
     }
 }
+// printing from front
+void printfront()
+{
 
-void printfront(){
+    struct node *temp = head;
 
-struct node *temp=head;
-   
-    while (temp!=NULL)
+    while (temp != NULL)
     {
         printf("%d--%s\n", temp->roll, temp->name);
-        temp=temp->next;
+        temp = temp->next;
     }
-    
 }
-
-void deletefront(){
-    struct node *temp=head;
-    head=head->next;
-    if (head!=NULL)
+// deleting from front
+void deletefront()
+{
+    struct node *temp = head;
+    head = head->next;
+    if (head != NULL)
     {
-        head->prev=NULL;
+        head->prev = NULL;
     }
     free(temp);
-
 }
-
-void deletelast(){
-    struct node *temp=head;
-    while (temp->next!=NULL)
+// deleting from last
+void deletelast()
+{
+    struct node *temp = head;
+    while (temp->next != NULL)
     {
-        
+        temp = temp->next;
     }
-    
+    temp->prev->next = NULL;
+    free(temp);
 }
 
 int main()
@@ -102,9 +107,11 @@ int main()
 
     printfront();
 
-        printf("\ndelete  from front\n");
-        deletefront();
-        printfront();
+    printf("\ndelete  from front\n");
+    deletefront();
+    printfront();
 
-
+    printf("\ndelete  from last\n");
+    deletelast();
+    printfront();
 }
