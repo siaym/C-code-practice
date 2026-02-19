@@ -67,13 +67,33 @@ struct node *temp=head;
     
 }
 
+void deletefront(){
+    struct node *temp=head;
+    head=head->next;
+    if (head!=NULL)
+    {
+        head->prev=NULL;
+    }
+    free(temp);
+
+}
+
+void deletelast(){
+    struct node *temp=head;
+    while (temp->next!=NULL)
+    {
+        
+    }
+    
+}
+
 int main()
 {
 
     insertlast(22, "ariyan");
     insertlast(32, "zariyan");
     insertlast(42, "maariyam");
-    
+
     printf("\nprinting from back\n");
 
     printback();
@@ -81,5 +101,10 @@ int main()
     printf("\nprinting from front\n");
 
     printfront();
+
+        printf("\ndelete  from front\n");
+        deletefront();
+        printfront();
+
 
 }
