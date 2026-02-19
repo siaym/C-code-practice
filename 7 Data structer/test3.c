@@ -47,7 +47,10 @@ void insertFirst(int roll,char name[],float cgpa)
 {
     struct node *newnode=createNode(roll,name,cgpa);
     newnode->next=head;
-    if(head) head->prev=newnode;
+    if(head != NULL)
+    {
+        head->prev = newnode;
+    }
     head=newnode;
 }
 

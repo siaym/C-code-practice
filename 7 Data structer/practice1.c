@@ -51,7 +51,7 @@ void printback(){
     }
     while (temp!=NULL)
     {
-        printf("%d- %.2f- %s",temp->roll,temp->cgpa,temp->name);
+        printf("%d- %.2f- %s \n",temp->roll,temp->cgpa,temp->name);
         temp=temp->prev;
     }
     
@@ -60,6 +60,7 @@ void printback(){
 int main (){
 
 insertlast(10,3.6,"raiyan");
+insertlast(20,3.6,"aiyan");
     printback();
 
 
