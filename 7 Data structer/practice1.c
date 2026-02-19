@@ -56,8 +56,7 @@ void printback(){
     }
     
 }
-
-int main (){
+ 
 
 insertlast(10,3.6,"raiyan");
 insertlast(20,3.6,"aiyan");
