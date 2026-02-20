@@ -120,3 +120,42 @@ void deleteback()
 
     free(temp);
 }
+
+
+void insertfront(int roll, char name[])
+{
+    struct node *newnode = createnode(roll, name);
+
+    newnode->next = head;
+
+    if(head != NULL)
+    {
+        head->prev = newnode;
+    }
+
+    head = newnode;
+}
+
+void insertmiddle(int afterRoll, int roll, char name[])
+{
+    struct node *temp = head;
+
+    while(temp != NULL && temp->roll != afterRoll)
+    {
+        temp = temp->next;
+    }
+
+    if(temp == NULL)
+        return;   // position not found
+
+    struct node *newnode = createnode(roll, name);
+
+    newnode->next = temp->next;
+    newnode->prev = temp;
+
+    if(temp->next != NULL)
+        temp->next->prev = newnode;
+
+    temp->next = newnode;
+}
+

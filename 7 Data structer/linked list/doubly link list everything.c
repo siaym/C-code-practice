@@ -92,6 +92,18 @@ void deletelast()
     free(temp);
 }
 
+//inserting at front 
+void insertfront(int roll,char name[]){
+    struct node *newnode=createnode(roll,name);
+    struct node *temp=head;
+    newnode->next=head;
+    if (head!=NULL)
+    {
+        
+    }
+    
+}
+
 int main()
 {
 
@@ -113,5 +125,10 @@ int main()
 
     printf("\ndelete  from last\n");
     deletelast();
+    printfront();
+
+        printf("\ninserting  from front\n");
+
+    insertfront(42, "maariyam");
     printfront();
 }
