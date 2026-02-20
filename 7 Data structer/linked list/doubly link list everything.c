@@ -97,12 +97,14 @@ void insertfront(int roll,char name[]){
     struct node *newnode=createnode(roll,name);
     struct node *temp=head;
     newnode->next=head;
-    if (head!=NULL)
+     if(head != NULL)
     {
-        
+        head->prev = newnode;
     }
-    
+
+    head = newnode;
 }
+    
 
 int main()
 {
