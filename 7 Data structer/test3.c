@@ -6,94 +6,113 @@ struct node
 {
     int roll;
     char name[50];
-    float cgpa;
-    struct node *prev;
-    struct node *next;
+    struct node *prev,*next;
 };
 
-struct node *head = NULL;
-
-struct node* createNode(int roll,char name[],float cgpa)
+struct node *head=NULL;
+struct node *createnode(int roll,char name[])
 {
-    struct node *newnode = malloc(sizeof(struct node));
-    newnode->roll = roll;
+    struct node *newnode=malloc(sizeof(struct node));
+    newnode->roll=roll;
     strcpy(newnode->name,name);
-    newnode->cgpa = cgpa;
-    newnode->prev = NULL;
-    newnode->next = NULL;
+    newnode->next=NULL;
+    newnode->prev=NULL;
     return newnode;
-}
+};
 
-/* insert last */
-void insertLast(int roll,char name[],float cgpa)
-{
-    struct node *newnode=createNode(roll,name,cgpa);
-
-    if(head==NULL){
-        head=newnode;
+void insertlast(int roll,char name[]){
+    struct node *newnode=createnode(roll,name);
+    struct node *temp=head;
+    if (head==NULL)
+    {
+        /* code */ head=newnode;
         return;
     }
-
-    struct node *temp=head;
-    while(temp->next!=NULL)
+    
+    while (temp->next!=NULL)
+    {
         temp=temp->next;
-
+    }
     temp->next=newnode;
     newnode->prev=temp;
 }
-
-/* insert beginning */
-void insertFirst(int roll,char name[],float cgpa)
-{
-    struct node *newnode=createNode(roll,name,cgpa);
-    newnode->next=head;
-    if(head != NULL)
-    {
-        head->prev = newnode;
-    }
-    head=newnode;
-}
-
-/* delete last */
-void deleteLast()
-{
+void printback(){
     struct node *temp=head;
-    while(temp->next!=NULL)
+    while (temp->next!=NULL)
+    {
         temp=temp->next;
+    }
+    while (temp!=NULL)
+    {
+        /* code */printf("%d--%s\n", temp->roll, temp->name);
+        temp=temp->prev;
+    }
+    
+}
+void printfront(){
+    struct node *temp=head;
 
-    if(temp->prev)
-        temp->prev->next=NULL;
-    else
-        head=NULL;
+    while (temp!=NULL)
+    {
+        /* code */printf("%d--%s\n", temp->roll, temp->name);
+        temp=temp->next;
+    }
 
+}
+void deletefront(){
+    struct node *temp=head;
+    head=head->next;
+    if (head!=NULL)
+    {
+        /* code */ head->prev=NULL;
+    }
     free(temp);
 }
 
-/* print from back */
-void printBack()
-{
+void deletelast(){
     struct node *temp=head;
-
-    while(temp->next!=NULL)
-        temp=temp->next;
-
-    while(temp!=NULL){
-        printf("%d %s %.2f\n",temp->roll,temp->name,temp->cgpa);
-        temp=temp->prev;
+    while (temp->next!=NULL)
+    {
+        /* code */  temp=temp->next;
     }
+    temp->prev->next=NULL;
+    free(temp);
+}
+void insertfront(int roll,int name){
+    struct node *newnode=createnode(roll,name);
+    struct node *temp=head;
+    
 }
 
 int main()
 {
-    insertLast(100,"Ayan",3.20);
-    insertLast(102,"Rafi",3.80);
-    insertLast(105,"Nila",3.50);
 
-    printBack();
+    insertlast(22, "ariyan");
+    insertlast(32, "zariyan");
+    insertlast(42, "maariyam");
 
-    insertFirst(101,"Maruf",3.56);
-    printBack();
+    printf("\nprinting from back\n");
 
-    deleteLast();
-    printBack();
+    printback();
+
+    printf("\nprinting from front\n");
+
+    printfront();
+
+    printf("\ndelete  from front\n");
+    deletefront();
+    printfront();
+
+    printf("\ndelete  from last\n");
+    deletelast();
+    printfront();
+
+        printf("\ninserting  from front\n");
+
+    insertfront(42, "maariyam");
+    printfront();
+// printf("\ninserting in the middle \n");
+//     insertmiddle(42,72,"middleNode"); 
+// printfront();
 }
+
