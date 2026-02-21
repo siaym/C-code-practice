@@ -75,12 +75,27 @@ void deletelast(){
 }
 void deletefront(){
     struct node *temp=head;
+    head=head->next;
     if (head!=NULL)
     {
-        /* code */ 
+        head->prev=NULL;
     }
+    free(temp);
+
     
 }
+void insertfront(int roll,char name[]){
+    struct node *newnode=createnode(roll,name);
+    struct node *temp=head;
+    newnode->next=head;
+    if (head!=NULL)
+    {
+        /* code */head->prev=newnode;
+
+    }
+    head=newnode;
+}
+
 
 int main(){
     insertlast(32,"ariyan");
@@ -90,7 +105,19 @@ int main(){
 printf("\n");
 printfront();
 printf("\n");
+
+printf("deleting back \n");
 deletelast();
 printfront();
+printf("\n");
+printf("deleting front \n");
+deletefront();
+printfront();
+
+printf("inserting front \n");
+
+insertfront(62,"ratiyan");
+printfront();
+
 
 }

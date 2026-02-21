@@ -104,6 +104,23 @@ void insertfront(int roll,char name[]){
 
     head = newnode;
 }
+void insertmiddle(int afterroll,int roll,char name[]){
+    struct node *temp=head;
+    while (temp!=NULL && temp->roll!=afterroll)
+    {
+        temp=temp->next;
+    }
+    struct node *newnode=createnode(roll,name);
+    newnode->next=temp->next;
+    newnode->prev=temp;
+
+    if (temp->next!=NULL)
+    {
+        temp->next->prev=newnode;
+    }
+    temp->next=newnode;
+    
+}
     
 
 int main()
@@ -133,4 +150,7 @@ int main()
 
     insertfront(42, "maariyam");
     printfront();
+printf("\ninserting in the middle \n");
+    insertmiddle(42,72,"middleNode"); 
+printfront();
 }
