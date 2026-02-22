@@ -8,17 +8,15 @@ struct node
     char name[50];
     struct node *prev,*next;
 };
-
 struct node *head=NULL;
-
 struct node *createnode(int roll,char name[])
 {
-    /* data */ struct node *newnode=malloc(sizeof(struct node ));
+    /* data */ struct node *newnode=malloc(sizeof(struct node));
     newnode->roll=roll;
     strcpy(newnode->name,name);
     newnode->next=NULL;
     newnode->prev=NULL;
-    return newnode;
+    return newnode ;
 };
 void insertlast(int roll,char name[]){
     struct node *newnode=createnode(roll,name);
@@ -28,74 +26,63 @@ void insertlast(int roll,char name[]){
         /* code */head=newnode;
         return;
     }
+    
     while (temp->next!=NULL)
     {
-        /* code */temp=temp->next;
+        /* code */ temp=temp->next;
     }
     temp->next=newnode;
     newnode->prev=temp;
-    
 }
-void printback(){
+ void printback(){
     struct node *temp=head;
     while (temp->next!=NULL)
     {
-        /* code */temp=temp->next;
+        temp=temp->next;
     }
     while (temp!=NULL)
     {
-        /* code */         printf("%d--%s\n", temp->roll, temp->name);
-        temp=temp->prev;
-
-    } }
-
-    void printfront(){
-        struct node *temp=head;
-        while (temp!=NULL)
-        {
-            /* code */ printf("%d--%s\n", temp->roll, temp->name);
-        temp=temp->next;
-        }
-        
+        /* code */printf("%d--%s\n", temp->roll, temp->name);
+        temp = temp->prev;
     }
- void  deletefront(){
+    
+}
+ void printfront(){
+    struct node *temp=head;
+    while (temp!=NULL)
+    {
+        /* code */printf("%d--%s\n", temp->roll, temp->name);
+        temp = temp->next;
+    }
+
+ }
+ void deletefront(){
     struct node *temp=head;
     head=head->next;
     if (head!=NULL)
     {
-        /* code */ head->prev=NULL;
+        /* code */  head->prev=NULL;                      
     }
     free(temp);
-
+ }
+void  deletelast(){
+    struct node *temp=head;
+    while (temp->next!=NULL)
+    {
+        /* code */temp=temp->next;
     }
-
-
-   void deletelast(){
-        struct node *temp=head;
-        while (temp->next!=NULL)
-        {
-            /* code */temp=temp->next;
-        }
-        temp->prev->next=NULL;
-        free(temp);
-
-
-   }
-    void insertfront(int roll,char name[]){
-        struct node *newnode=createnode(roll,name);
-        struct node *temp=head;
-        newnode->next=head;
-        if (head!=NULL)
-        {
-            /* code */ head->prev=newnode;
-        }
-        head=newnode;
-        
-
-
-    }
+    temp->prev->next=NULL;
+    free(temp);
     
+}
+void insertfront(int roll,char name[]){
+struct node *newnode=createnode(roll,name);
+    struct node *temp=head;
+    
+}
+void insertmiddle(){
 
+}
 
 int main()
 {
@@ -124,8 +111,8 @@ int main()
 
     insertfront(42, "maariyam");
     printfront();
-// printf("\ninserting in the middle \n");
-//     insertmiddle(42,72,"middleNode"); 
-// printfront();
+printf("\ninserting in the middle \n");
+    insertmiddle(42,72,"middleNode"); 
+printfront();
 }
 

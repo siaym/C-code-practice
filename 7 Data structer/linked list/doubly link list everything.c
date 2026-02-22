@@ -119,7 +119,6 @@ void insertmiddle(int afterroll,int roll,char name[]){
         temp->next->prev=newnode;
     }
     temp->next=newnode;
-    
 }
     
 
