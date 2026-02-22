@@ -9,7 +9,7 @@ struct node
     struct node *next;
 };
 
-struct node *top = NULL;
+struct node *head = NULL;
 
 // create node
 struct node *createnode(int roll,char name[])
@@ -24,15 +24,15 @@ struct node *createnode(int roll,char name[])
 // isEmpty
 int isEmpty()
 {
-    return (top==NULL);
+    return (head==NULL);
 }
 
 // PUSH (insert front)
 void push(int roll,char name[])
 {
     struct node *newnode = createnode(roll,name);
-    newnode->next = top;
-    top = newnode;
+    newnode->next = head;
+    head = newnode;
     printf("Pushed: %d--%s\n",roll,name);
 }
 
@@ -43,26 +43,26 @@ void pop()
         printf("Stack Underflow\n");
         return;
     }
-    struct node *temp = top;
-    printf("Popped: %d--%s\n",top->roll,top->name);
-    top = top->next;
+    struct node *temp = head;
+    printf("Popped: %d--%s\n",head->roll,head->name);
+    head = head->next;
     free(temp);
 }
 
-// PEEK (view top)
+// PEEK (view head)
 void peek()
 {
     if(isEmpty()){
         printf("Stack Empty\n");
         return;
     }
-    printf("Top = %d--%s\n",top->roll,top->name);
+    printf("head = %d--%s\n",head->roll,head->name);
 }
 
 // Display stack
 void display()
 {
-    struct node *temp=top;
+    struct node *temp=head;
     while(temp!=NULL){
         printf("%d--%s\n",temp->roll,temp->name);
         temp=temp->next;
