@@ -121,6 +121,32 @@ void insertmiddle(int afterroll,int roll,char name[]){
     temp->next=newnode;
 }
     
+void deletemiddle(int roll)
+{
+    struct node *temp = head;
+
+    while(temp != NULL && temp->roll != roll)
+    {
+        temp = temp->next;
+    }
+    // if(temp == NULL)
+    //     return;   // not found
+    // if(temp == head)
+    // {
+    //     deletefront();
+    //     return;
+    // }
+    if(temp->next == NULL)
+    {
+        deletelast();
+        return;
+    }
+    temp->prev->next = temp->next;
+    temp->next->prev = temp->prev;
+
+    free(temp);
+}
+
 
 int main()
 {
@@ -152,4 +178,11 @@ int main()
 printf("\ninserting in the middle \n");
     insertmiddle(42,72,"middleNode"); 
 printfront();
+
+
+ printf("\nDelete middle (72)\n");
+    deletemiddle(72);   // 👈 calling delete middle
+
+    printf("\nAfter delete middle:\n");
+    printfront();
 }

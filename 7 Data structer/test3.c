@@ -78,9 +78,23 @@ void  deletelast(){
 void insertfront(int roll,char name[]){
 struct node *newnode=createnode(roll,name);
     struct node *temp=head;
-    
+
 }
-void insertmiddle(){
+void insertmiddle(int afterroll,int roll,int name[]){
+    struct node *temp=head;
+    while (temp!=NULL && temp->next!=afterroll)
+    {
+        /* code */temp=temp->next;
+    }
+    struct node *newnode=createnode(roll,name);
+    newnode->next=temp->next;
+    newnode->prev=temp;
+    while (temp!=NULL)
+    {
+        /* code */
+    }
+        
+
 
 }
 
