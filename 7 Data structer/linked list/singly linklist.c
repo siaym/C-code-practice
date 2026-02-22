@@ -160,7 +160,7 @@ int main()
     insertmiddle(42,72,"middleNode");
     printfront();
 
-    deletemiddle(32);
+    deletemiddle(72);
 
 printf("\nAfter delete middle\n");
 printfront();
