@@ -1,128 +1,219 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 
-#define MAX_TEXT_LEN 1024
-
-// Sample texts to type
-const char *texts[] = {
-    "The quick brown fox jumps over the lazy dog.",
-    "Programming in C is powerful and efficient.",
-    "Typing speed improves with practice and focus.",
-    "A journey of a thousand miles begins with a single step.",
-    "Debugging is twice as hard as writing the code in the first place."
+struct Book {
+    int id;
+    char title[50];
+    char author[50];
+    int isIssued;
+    char issuedTo[50];
+    struct Book *next;
 };
 
-int getRandomIndex(int n) {
-    return rand() % n;
+struct Book *head = NULL;
+
+// ================= INSERT =================
+void insertBook(struct Book *newBook) {
+    newBook->next = head;
+    head = newBook;
 }
 
-// Remove trailing newline from fgets
-void removeNewline(char *s) {
-    size_t len = strlen(s);
-    if (len > 0 && s[len - 1] == '\n') {
-        s[len - 1] = '\0';
+// ================= SEARCH =================
+struct Book* findBook(int id) {
+    struct Book *temp = head;
+    while (temp) {
+        if (temp->id == id)
+            return temp;
+        temp = temp->next;
     }
+    return NULL;
 }
 
-// Calculate accuracy (percentage of matching characters)
-double calculateAccuracy(const char *original, const char *typed) {
-    int lenOrig = strlen(original);
-    int lenTyped = strlen(typed);
-    int minLen = (lenOrig < lenTyped) ? lenOrig : lenTyped;
+// ================= LOAD FROM FILE =================
+void loadFromFile() {
+    FILE *file = fopen("library.txt", "r");
+    if (!file) return;
 
-    int correct = 0;
-    for (int i = 0; i < minLen; i++) {
-        if (original[i] == typed[i]) {
-            correct++;
+    while (1) {
+        struct Book *temp = malloc(sizeof(struct Book));
+
+        if (fscanf(file, "%d|%49[^|]|%49[^|]|%d|%49[^\n]\n",
+                   &temp->id, temp->title, temp->author,
+                   &temp->isIssued, temp->issuedTo) != 5) {
+            free(temp);
+            break;
         }
+
+        insertBook(temp);
     }
 
-    return (lenOrig == 0) ? 0.0 : (correct * 100.0) / lenOrig;
+    fclose(file);
 }
 
-// Count words in a string (simple space-based)
-int countWords(const char *s) {
-    int count = 0;
-    int inWord = 0;
-    for (int i = 0; s[i] != '\0'; i++) {
-        if (s[i] != ' ' && s[i] != '\t' && s[i] != '\n') {
-            if (!inWord) {
-                inWord = 1;
-                count++;
-            }
-        } else {
-            inWord = 0;
-        }
+// ================= SAVE TO FILE =================
+void saveToFile() {
+    FILE *file = fopen("library.txt", "w");
+    struct Book *temp = head;
+
+    while (temp) {
+        fprintf(file, "%d|%s|%s|%d|%s\n",
+                temp->id, temp->title, temp->author,
+                temp->isIssued, temp->issuedTo);
+        temp = temp->next;
     }
-    return count;
+
+    fclose(file);
 }
 
-int main() {
-    char typed[MAX_TEXT_LEN];
+// ================= ADD BOOK =================
+void addBook() {
+    struct Book *newBook = malloc(sizeof(struct Book));
+
+    printf("Enter Book ID: ");
+    scanf("%d", &newBook->id);
+    getchar();
+
+    printf("Enter Title: ");
+    fgets(newBook->title, 50, stdin);
+    newBook->title[strcspn(newBook->title, "\n")] = 0;
+
+    printf("Enter Author: ");
+    fgets(newBook->author, 50, stdin);
+    newBook->author[strcspn(newBook->author, "\n")] = 0;
+
+    newBook->isIssued = 0;
+    strcpy(newBook->issuedTo, "None");
+
+    insertBook(newBook);
+    saveToFile();
+
+    printf("Book added successfully!\n");
+}
+
+// ================= DISPLAY =================
+void displayBooks() {
+    struct Book *temp = head;
+
+    if (!temp) {
+        printf("No books found!\n");
+        return;
+    }
+
+    while (temp) {
+        printf("\nID: %d\nTitle: %s\nAuthor: %s\nStatus: %s\nIssued To: %s\n",
+               temp->id, temp->title, temp->author,
+               temp->isIssued ? "Issued" : "Available",
+               temp->issuedTo);
+        temp = temp->next;
+    }
+}
+
+// ================= ISSUE =================
+void issueBook() {
+    int id;
     char name[50];
 
-    srand((unsigned int)time(NULL));
+    printf("Enter Book ID: ");
+    scanf("%d", &id);
+    getchar();
 
-    printf("=== Typing Speed Test ===\n\n");
-    printf("Enter your name: ");
-    fgets(name, sizeof(name), stdin);
-    removeNewline(name);
+    struct Book *book = findBook(id);
 
-    int textCount = sizeof(texts) / sizeof(texts[0]);
-    int idx = getRandomIndex(textCount);
-    const char *target = texts[idx];
-
-    printf("\nType the following text exactly as shown:\n\n");
-    printf("\"%s\"\n\n", target);
-    printf("Press ENTER when you are ready to start...");
-    getchar(); // wait for user to press enter
-
-    printf("\nStart typing below and press ENTER when done:\n\n");
-
-    clock_t start = clock();
-    fgets(typed, sizeof(typed), stdin);
-    clock_t end = clock();
-
-    removeNewline(typed);
-
-    double seconds = (double)(end - start) / CLOCKS_PER_SEC;
-    double minutes = seconds / 60.0;
-
-    int charsTyped = strlen(typed);
-    int wordsTyped = countWords(typed);
-    double accuracy = calculateAccuracy(target, typed);
-
-    double wpm = (minutes > 0) ? (wordsTyped / minutes) : 0.0;
-    double cpm = (minutes > 0) ? (charsTyped / minutes) : 0.0;
-
-    printf("\n=== Results for %s ===\n", name);
-    printf("Time taken      : %.2f seconds\n", seconds);
-    printf("Characters typed: %d\n", charsTyped);
-    printf("Words typed     : %d\n", wordsTyped);
-    printf("Accuracy        : %.2f %%\n", accuracy);
-    printf("WPM             : %.2f\n", wpm);
-    printf("CPM             : %.2f\n", cpm);
-
-    // Save results to file
-    FILE *fp = fopen("results.txt", "a");
-    if (fp == NULL) {
-        printf("\n[!] Could not open results.txt for writing.\n");
-    } else {
-        time_t now = time(NULL);
-        struct tm *t = localtime(&now);
-        char timeStr[64];
-        strftime(timeStr, sizeof(timeStr), "%Y-%m-%d %H:%M:%S", t);
-
-        fprintf(fp, "%s | Time: %.2fs | WPM: %.2f | CPM: %.2f | Accuracy: %.2f%% | %s\n",
-                name, seconds, wpm, cpm, accuracy, timeStr);
-
-        fclose(fp);
-        printf("\n[+] Result saved to results.txt\n");
+    if (!book || book->isIssued) {
+        printf("Book not available!\n");
+        return;
     }
 
-    printf("\nPress ENTER to exit...");
-    getchar();
+    printf("Enter Person Name: ");
+    fgets(name, 50, stdin);
+    name[strcspn(name, "\n")] = 0;
+
+    book->isIssued = 1;
+    strcpy(book->issuedTo, name);
+
+    saveToFile();
+    printf("Book issued successfully!\n");
+}
+
+// ================= RETURN =================
+void returnBook() {
+    int id;
+
+    printf("Enter Book ID: ");
+    scanf("%d", &id);
+
+    struct Book *book = findBook(id);
+
+    if (!book || !book->isIssued) {
+        printf("Invalid return!\n");
+        return;
+    }
+
+    book->isIssued = 0;
+    strcpy(book->issuedTo, "None");
+
+    saveToFile();
+    printf("Book returned successfully!\n");
+}
+
+// ================= DELETE =================
+void deleteBook() {
+    int id;
+    printf("Enter Book ID: ");
+    scanf("%d", &id);
+
+    struct Book *temp = head, *prev = NULL;
+
+    while (temp) {
+        if (temp->id == id) {
+            if (prev == NULL)
+                head = temp->next;
+            else
+                prev->next = temp->next;
+
+            free(temp);
+            saveToFile();
+
+            printf("Book deleted successfully!\n");
+            return;
+        }
+
+        prev = temp;
+        temp = temp->next;
+    }
+
+    printf("Book not found!\n");
+}
+
+// ================= MAIN =================
+int main() {
+    int choice;
+
+    loadFromFile(); // load existing data
+
+    while (1) {
+        printf("\n===== Library Management System =====\n");
+        printf("1. Add Book\n");
+        printf("2. Display All Books\n");
+        printf("3. Issue Book\n");
+        printf("4. Return Book\n");
+        printf("5. Delete Book\n");
+        printf("6. Exit\n");
+
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1: addBook(); break;
+            case 2: displayBooks(); break;
+            case 3: issueBook(); break;
+            case 4: returnBook(); break;
+            case 5: deleteBook(); break;
+            case 6: exit(0);
+            default: printf("Invalid choice!\n");
+        }
+    }
+
     return 0;
 }

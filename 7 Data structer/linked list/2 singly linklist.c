@@ -104,32 +104,26 @@ void insertmiddle(int afterroll,int roll,char name[])
 
 void deletemiddle(int roll)
 {
-    struct node *temp = head;
+    if(head == NULL) return;
 
-    /* find the node */
+    struct node *temp = head;
+    struct node *prev = NULL;
+
     while(temp != NULL && temp->roll != roll)
     {
+        prev = temp;
         temp = temp->next;
     }
 
-    if(temp == NULL)
-        return;   // not found
+    // if(temp == NULL) return;   // not found
 
-    if(temp->next == NULL)
-    {
-        deletelast();
-        return;
-    }
+    // if(prev == NULL)           // first node
+    // {
+    //     deletefront();
+    //     return;
+    // }
 
-    if(temp->prev == NULL)
-    {
-        deletefront();
-        return;
-    }
-
-    temp->prev->next = temp->next;
-    temp->next->prev = temp->prev;
-
+    prev->next = temp->next;
     free(temp);
 }
 
