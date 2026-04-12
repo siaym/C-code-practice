@@ -5,7 +5,7 @@
  LIBRARY MANAGEMENT SYSTEM IN C
  Using Singly Linked List
  Daffodil International University
- ================================================
+ ===============================================
 */
 
 >>>>>>> e56a9cd4c0d01f436844aa91454ea575327ffc3e
