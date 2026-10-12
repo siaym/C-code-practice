@@ -1,13 +1,25 @@
-import java.util.Scanner;
-public class test1 {
-    public static void main(String args []){
-        System.out.println("enter the number ");
-        Scanner in= new Scanner(System.in);
-        int y=in.nextInt();
-        // int sum=0;
-     for(int x=0;x<=10;x++ ){
-     System.out.println(y+"*"+x+"="+y*x);
+#include <stdio.h>
 
-     }
+int main() {
+    int a[] = {450, 120, 680, 230, 510, 90, 340, 760, 180, 400};
+    int n = 10, i, j, key;
+
+    for (i = 1; i < n; i++) {
+        key = a[i];
+        j = i - 1;
+
+        while (j >= 0 && a[j] > key) {
+            a[j + 1] = a[j];
+            j--;
+        }
+
+        a[j + 1] = key;
     }
+
+    printf("Sorted Prices: ");
+    for (i = 0; i < n; i++) {
+        printf("%d ", a[i]);
+    }
+
+    return 0;
 }
